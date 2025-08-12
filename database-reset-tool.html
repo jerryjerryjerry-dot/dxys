@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据库重置工具</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+    }
+
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      color: #1890ff;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.2em;
+    }
+
+    .section {
+      margin: 25px 0;
+      padding: 20px;
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+    }
+
+    .section-title {
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #1890ff;
+    }
+
+    .btn {
+      background: #1890ff;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 8px;
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      background: #40a9ff;
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background: #ff4d4f;
+    }
+
+    .btn-danger:hover {
+      background: #ff7875;
+    }
+
+    .btn-success {
+      background: #52c41a;
+    }
+
+    .btn-success:hover {
+      background: #73d13d;
+    }
+
+    .btn-warning {
+      background: #faad14;
+    }
+
+    .btn-warning:hover {
+      background: #ffc53d;
+    }
+
+    .result {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 4px;
+      padding: 15px;
+      margin: 15px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .result.success {
+      background: #f6ffed;
+      border-color: #b7eb8f;
+      color: #389e0d;
+    }
+
+    .result.error {
+      background: #fff2f0;
+      border-color: #ffccc7;
+      color: #cf1322;
+    }
+
+    .result.warning {
+      background: #fffbe6;
+      border-color: #ffe58f;
+      color: #d46b08;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .stat-card {
+      background: #fafafa;
+      padding: 15px;
+      border-radius: 4px;
+      text-align: center;
+      border: 1px solid #e8e8e8;
+    }
+
+    .stat-number {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1890ff;
+    }
+
+    .stat-label {
+      color: #666;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    .progress {
+      width: 100%;
+      height: 20px;
+      background: #f0f0f0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(45deg, #1890ff, #40a9ff);
+      width: 0%;
+      transition: width 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .warning-box {
+      background: #fff7e6;
+      border: 1px solid #ffd591;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+
+    .warning-title {
+      color: #fa8c16;
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .data-preview {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 4px;
+      padding: 15px;
+      margin: 10px 0;
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>🗄️ 数据库重置工具</h1>
+
+    <!-- 当前状态 -->
+    <div class="section">
+      <div class="section-title">📊 当前数据库状态</div>
+      <div class="stats" id="database-stats">
+        <div class="stat-card">
+          <div class="stat-number" id="builtin-apps-count">-</div>
+          <div class="stat-label">内置应用</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="coloring-strategies-count">-</div>
+          <div class="stat-label">流量染色策略</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="recognition-strategies-count">-</div>
+          <div class="stat-label">识别策略</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="watermark-configs-count">-</div>
+          <div class="stat-label">水印配置</div>
+        </div>
+      </div>
+      <button class="btn" onclick="loadCurrentStats()">刷新统计</button>
+    </div>
+
+    <!-- 数据库操作 -->
+    <div class="section">
+      <div class="section-title">🔄 数据库操作</div>
+      <div class="warning-box">
+        <div class="warning-title">⚠️ 重要提醒</div>
+        <p>清空数据库将删除所有现有数据，包括您添加的自定义数据。请确保您了解此操作的后果。</p>
+        <p>建议在操作前先备份重要数据。</p>
+      </div>
+
+      <button class="btn btn-warning" onclick="clearDatabase()">清空数据库</button>
+      <button class="btn btn-success" onclick="initializeDatabase()">重新初始化数据库</button>
+      <button class="btn btn-danger" onclick="resetCompleteDatabase()">完全重置数据库</button>
+
+      <div class="progress" id="operation-progress" style="display: none;">
+        <div class="progress-bar" id="progress-bar">0%</div>
+      </div>
+
+      <div id="operation-result"></div>
+    </div>
+
+    <!-- 数据注入 -->
+    <div class="section">
+      <div class="section-title">📥 新应用数据注入</div>
+      <p>将注入 <strong id="new-apps-count">100+</strong> 个完整的企业级应用数据</p>
+
+      <button class="btn btn-success" onclick="injectNewAppData()">注入完整应用数据</button>
+      <button class="btn" onclick="previewNewData()">预览新数据</button>
+
+      <div class="data-preview" id="data-preview" style="display: none;"></div>
+      <div id="injection-result"></div>
+    </div>
+
+    <!-- 操作日志 -->
+    <div class="section">
+      <div class="section-title">📝 操作日志</div>
+      <div class="result" id="operation-log">
+        等待操作...
+      </div>
+      <button class="btn" onclick="clearLog()">清空日志</button>
+    </div>
+  </div>
+
+  <!-- 引入依赖 -->
+  <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.js"></script>
+  <script src="AppDataManagerV2.js"></script>
+  <script src="complete-app-data.js"></script>
+
+  <script>
+    // 完整的企业级应用数据
+    const completeAppData = [
+      // 办公应用 - 邮件系统
+      { name: 'Microsoft Outlook', address: 'outlook.office365.com', type: '邮件系统', category: '办公应用', status: '启用', description: '微软企业邮箱服务', tags: ['邮件', '办公', '微软'] },
+      { name: 'Gmail', address: 'mail.google.com', type: '邮件系统', category: '办公应用', status: '启用', description: '谷歌邮箱服务', tags: ['邮件', '办公', '谷歌'] },
+      { name: 'QQ邮箱', address: 'mail.qq.com', type: '邮件系统', category: '办公应用', status: '启用', description: '腾讯QQ邮箱服务', tags: ['邮件', '办公', '腾讯'] },
+      { name: '163邮箱', address: 'mail.163.com', type: '邮件系统', category: '办公应用', status: '启用', description: '网易163邮箱服务', tags: ['邮件', '办公', '网易'] },
+      { name: '企业微信邮箱', address: 'exmail.qq.com', type: '邮件系统', category: '办公应用', status: '启用', description: '腾讯企业邮箱服务', tags: ['邮件', '办公', '企业微信'] },
+
+      // 办公应用 - 文档协作
+      { name: 'Microsoft Office Online', address: 'office.live.com', type: '文档协作', category: '办公应用', status: '启用', description: '微软在线办公套件', tags: ['文档', '协作', '微软'] },
+      { name: 'Google Docs', address: 'docs.google.com', type: '文档协作', category: '办公应用', status: '启用', description: '谷歌在线文档服务', tags: ['文档', '协作', '谷歌'] },
+      { name: '腾讯文档', address: 'docs.qq.com', type: '文档协作', category: '办公应用', status: '启用', description: '腾讯在线文档服务', tags: ['文档', '协作', '腾讯'] },
+      { name: '金山文档', address: 'www.kdocs.cn', type: '文档协作', category: '办公应用', status: '启用', description: '金山在线文档服务', tags: ['文档', '协作', '金山'] },
+      { name: '石墨文档', address: 'shimo.im', type: '文档协作', category: '办公应用', status: '启用', description: '石墨在线文档服务', tags: ['文档', '协作', '石墨'] },
+
+      // 办公应用 - 视频会议
+      { name: 'Zoom', address: 'zoom.us', type: '视频会议', category: '办公应用', status: '启用', description: 'Zoom视频会议平台', tags: ['视频会议', '远程办公', 'Zoom'] },
+      { name: '腾讯会议', address: 'meeting.tencent.com', type: '视频会议', category: '办公应用', status: '启用', description: '腾讯视频会议平台', tags: ['视频会议', '远程办公', '腾讯'] },
+      { name: '钉钉', address: 'www.dingtalk.com', type: '视频会议', category: '办公应用', status: '启用', description: '阿里巴巴钉钉平台', tags: ['视频会议', '远程办公', '阿里'] },
+      { name: '飞书', address: 'www.feishu.cn', type: '视频会议', category: '办公应用', status: '启用', description: '字节跳动飞书平台', tags: ['视频会议', '远程办公', '字节'] },
+      { name: 'Microsoft Teams', address: 'teams.microsoft.com', type: '视频会议', category: '办公应用', status: '启用', description: '微软Teams协作平台', tags: ['视频会议', '远程办公', '微软'] },
+
+      // 开发工具 - 代码仓库
+      { name: 'GitHub', address: 'github.com', type: '代码仓库', category: '开发工具', status: '启用', description: 'GitHub代码托管平台', tags: ['代码仓库', 'Git', '开源'] },
+      { name: 'GitLab', address: 'gitlab.com', type: '代码仓库', category: '开发工具', status: '启用', description: 'GitLab代码托管平台', tags: ['代码仓库', 'Git', 'CI/CD'] },
+      { name: 'Gitee', address: 'gitee.com', type: '代码仓库', category: '开发工具', status: '启用', description: '码云代码托管平台', tags: ['代码仓库', 'Git', '国内'] },
+      { name: 'Bitbucket', address: 'bitbucket.org', type: '代码仓库', category: '开发工具', status: '启用', description: 'Atlassian代码托管平台', tags: ['代码仓库', 'Git', 'Atlassian'] },
+      { name: 'Coding', address: 'coding.net', type: '代码仓库', category: '开发工具', status: '启用', description: '腾讯云开发者平台', tags: ['代码仓库', 'Git', '腾讯'] },
+
+      // 开发工具 - CI/CD工具
+      { name: 'Jenkins', address: 'jenkins.io', type: 'CI/CD工具', category: '开发工具', status: '启用', description: 'Jenkins持续集成平台', tags: ['CI/CD', '自动化', '开源'] },
+      { name: 'GitHub Actions', address: 'github.com/features/actions', type: 'CI/CD工具', category: '开发工具', status: '启用', description: 'GitHub Actions自动化平台', tags: ['CI/CD', '自动化', 'GitHub'] },
+      { name: 'GitLab CI', address: 'docs.gitlab.com/ee/ci', type: 'CI/CD工具', category: '开发工具', status: '启用', description: 'GitLab CI/CD平台', tags: ['CI/CD', '自动化', 'GitLab'] },
+      { name: 'Travis CI', address: 'travis-ci.org', type: 'CI/CD工具', category: '开发工具', status: '启用', description: 'Travis CI持续集成平台', tags: ['CI/CD', '自动化', '开源'] },
+      { name: 'CircleCI', address: 'circleci.com', type: 'CI/CD工具', category: '开发工具', status: '启用', description: 'CircleCI持续集成平台', tags: ['CI/CD', '自动化', '云服务'] },
+
+      // 云服务 - 对象存储
+      { name: '阿里云OSS', address: 'oss.aliyun.com', type: '对象存储', category: '云服务', status: '启用', description: '阿里云对象存储服务', tags: ['对象存储', '云服务', '阿里云'] },
+      { name: '腾讯云COS', address: 'cloud.tencent.com/product/cos', type: '对象存储', category: '云服务', status: '启用', description: '腾讯云对象存储服务', tags: ['对象存储', '云服务', '腾讯云'] },
+      { name: 'AWS S3', address: 'aws.amazon.com/s3', type: '对象存储', category: '云服务', status: '启用', description: '亚马逊S3对象存储服务', tags: ['对象存储', '云服务', 'AWS'] },
+      { name: 'Azure Blob', address: 'azure.microsoft.com/services/storage/blobs', type: '对象存储', category: '云服务', status: '启用', description: '微软Azure Blob存储服务', tags: ['对象存储', '云服务', 'Azure'] },
+
+      // 企业管理 - ERP
+      { name: '用友ERP', address: 'yonyou.com/erp', type: 'ERP', category: '企业管理', status: '启用', description: '用友ERP系统', tags: ['ERP', '企业管理', '用友'] },
+      { name: '金蝶ERP', address: 'kingdee.com/erp', type: 'ERP', category: '企业管理', status: '启用', description: '金蝶ERP系统', tags: ['ERP', '企业管理', '金蝶'] },
+      { name: 'SAP ERP', address: 'sap.com/erp', type: 'ERP', category: '企业管理', status: '启用', description: 'SAP ERP系统', tags: ['ERP', '企业管理', 'SAP'] },
+      { name: 'Oracle ERP', address: 'oracle.com/erp', type: 'ERP', category: '企业管理', status: '启用', description: 'Oracle ERP系统', tags: ['ERP', '企业管理', 'Oracle'] },
+
+      // 安全工具 - 防火墙
+      { name: '思科防火墙', address: 'cisco.com/firewall', type: '防火墙', category: '安全工具', status: '启用', description: '思科企业级防火墙', tags: ['防火墙', '安全', '思科'] },
+      { name: '华为防火墙', address: 'huawei.com/firewall', type: '防火墙', category: '安全工具', status: '启用', description: '华为企业级防火墙', tags: ['防火墙', '安全', '华为'] },
+      { name: 'H3C防火墙', address: 'h3c.com/firewall', type: '防火墙', category: '安全工具', status: '启用', description: 'H3C企业级防火墙', tags: ['防火墙', '安全', 'H3C'] },
+
+      // 数据分析 - 商业智能
+      { name: 'Tableau', address: 'tableau.com', type: '商业智能', category: '数据分析', status: '启用', description: 'Tableau数据可视化平台', tags: ['商业智能', '可视化', 'Tableau'] },
+      { name: 'Power BI', address: 'powerbi.microsoft.com', type: '商业智能', category: '数据分析', status: '启用', description: '微软Power BI商业智能', tags: ['商业智能', '可视化', '微软'] },
+      { name: 'QlikView', address: 'qlik.com', type: '商业智能', category: '数据分析', status: '启用', description: 'Qlik商业智能平台', tags: ['商业智能', '可视化', 'Qlik'] },
+
+      // 通信服务 - 即时通讯
+      { name: 'Slack', address: 'slack.com', type: '即时通讯', category: '通信服务', status: '启用', description: 'Slack团队协作平台', tags: ['即时通讯', '协作', 'Slack'] },
+      { name: 'Discord', address: 'discord.com', type: '即时通讯', category: '通信服务', status: '启用', description: 'Discord游戏语音平台', tags: ['即时通讯', '语音', 'Discord'] },
+      { name: 'Telegram', address: 'telegram.org', type: '即时通讯', category: '通信服务', status: '启用', description: 'Telegram即时通讯', tags: ['即时通讯', '加密', 'Telegram'] }
+    ];
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', async function () {
+      await initializeManager();
+      await loadCurrentStats();
+      log('✅ 数据库重置工具已初始化');
+
+      // 显示新应用数据数量
+      document.getElementById('new-apps-count').textContent = completeAppData.length;
+    });
+
+    async function initializeManager() {
+      try {
+        if (!AppDataManagerV2.initialized) {
+          await AppDataManagerV2.init();
+        }
+      } catch (error) {
+        log(`❌ 初始化失败: ${error.message}`);
+      }
+    }
+
+    // 加载当前统计
+    async function loadCurrentStats() {
+      try {
+        log('🔄 加载数据库统计...');
+
+        const builtinCount = await AppDataManagerV2.db.builtinApps.count();
+        const coloringCount = await AppDataManagerV2.db.coloringStrategies.count();
+        const recognitionCount = await AppDataManagerV2.db.recognitionStrategies.count();
+        const watermarkCount = await AppDataManagerV2.db.watermarkConfigs.count();
+
+        document.getElementById('builtin-apps-count').textContent = builtinCount;
+        document.getElementById('coloring-strategies-count').textContent = coloringCount;
+        document.getElementById('recognition-strategies-count').textContent = recognitionCount;
+        document.getElementById('watermark-configs-count').textContent = watermarkCount;
+
+        log(`✅ 统计加载完成: 内置应用 ${builtinCount}, 染色策略 ${coloringCount}, 识别策略 ${recognitionCount}, 水印配置 ${watermarkCount}`);
+      } catch (error) {
+        log(`❌ 统计加载失败: ${error.message}`);
+      }
+    }
+
+    // 清空数据库
+    async function clearDatabase() {
+      if (!confirm('⚠️ 确定要清空数据库吗？此操作将删除所有数据！')) {
+        return;
+      }
+
+      try {
+        log('🗑️ 开始清空数据库...');
+        showProgress(0);
+
+        const tables = ['builtinApps', 'coloringStrategies', 'recognitionStrategies', 'watermarkConfigs'];
+        for (let i = 0; i < tables.length; i++) {
+          const table = tables[i];
+          await AppDataManagerV2.db[table].clear();
+          const progress = ((i + 1) / tables.length) * 100;
+          showProgress(progress);
+          log(`✅ 已清空 ${table} 表`);
+        }
+
+        hideProgress();
+        showResult('success', '✅ 数据库已完全清空');
+        await loadCurrentStats();
+      } catch (error) {
+        hideProgress();
+        showResult('error', `❌ 清空失败: ${error.message}`);
+        log(`❌ 清空数据库失败: ${error.message}`);
+      }
+    }
+
+    // 重新初始化数据库
+    async function initializeDatabase() {
+      try {
+        log('🔄 开始重新初始化数据库...');
+        showProgress(0);
+
+        // 重置初始化状态
+        AppDataManagerV2.initialized = false;
+
+        showProgress(25);
+        await AppDataManagerV2.init();
+
+        showProgress(100);
+        hideProgress();
+        showResult('success', '✅ 数据库重新初始化成功');
+        await loadCurrentStats();
+        log('✅ 数据库重新初始化完成');
+      } catch (error) {
+        hideProgress();
+        showResult('error', `❌ 初始化失败: ${error.message}`);
+        log(`❌ 数据库初始化失败: ${error.message}`);
+      }
+    }
+
+    // 完全重置数据库
+    async function resetCompleteDatabase() {
+      if (!confirm('⚠️ 确定要完全重置数据库吗？这将删除数据库并重新创建！')) {
+        return;
+      }
+
+      try {
+        log('🔄 开始完全重置数据库...');
+        showProgress(0);
+
+        // 删除数据库
+        await AppDataManagerV2.db.delete();
+        showProgress(50);
+        log('✅ 旧数据库已删除');
+
+        // 重新初始化
+        AppDataManagerV2.initialized = false;
+        AppDataManagerV2.db = null;
+        await AppDataManagerV2.init();
+
+        showProgress(100);
+        hideProgress();
+        showResult('success', '✅ 数据库完全重置成功');
+        await loadCurrentStats();
+        log('✅ 数据库完全重置完成');
+      } catch (error) {
+        hideProgress();
+        showResult('error', `❌ 重置失败: ${error.message}`);
+        log(`❌ 数据库重置失败: ${error.message}`);
+      }
+    }
+
+    // 注入新应用数据
+    async function injectNewAppData() {
+      try {
+        log('📥 开始注入新应用数据...');
+        showProgress(0);
+
+        // 先清空现有的内置应用数据
+        await AppDataManagerV2.db.builtinApps.clear();
+        log('✅ 已清空现有内置应用数据');
+
+        const currentTime = new Date().toISOString();
+        let injectedCount = 0;
+
+        for (let i = 0; i < completeAppData.length; i++) {
+          const app = {
+            ...completeAppData[i],
+            createTime: currentTime,
+            lastUpdated: currentTime
+          };
+
+          await AppDataManagerV2.db.builtinApps.add(app);
+          injectedCount++;
+
+          const progress = ((i + 1) / completeAppData.length) * 100;
+          showProgress(progress);
+
+          if (injectedCount % 10 === 0) {
+            log(`📥 已注入 ${injectedCount}/${completeAppData.length} 个应用`);
+          }
+        }
+
+        hideProgress();
+        showInjectionResult('success', `✅ 成功注入 ${injectedCount} 个企业级应用数据`);
+        await loadCurrentStats();
+        log(`✅ 应用数据注入完成: ${injectedCount} 个应用`);
+      } catch (error) {
+        hideProgress();
+        showInjectionResult('error', `❌ 注入失败: ${error.message}`);
+        log(`❌ 数据注入失败: ${error.message}`);
+      }
+    }
+
+    // 预览新数据
+    function previewNewData() {
+      const preview = document.getElementById('data-preview');
+      let html = `预览前 10 个应用数据:\n\n`;
+
+      completeAppData.slice(0, 10).forEach((app, index) => {
+        html += `${index + 1}. ${app.name} (${app.category})\n`;
+        html += `   地址: ${app.address}\n`;
+        html += `   类型: ${app.type}\n`;
+        html += `   标签: ${app.tags.join(', ')}\n\n`;
+      });
+
+      html += `... 还有 ${completeAppData.length - 10} 个应用\n\n`;
+      html += `总计: ${completeAppData.length} 个企业级应用`;
+
+      preview.textContent = html;
+      preview.style.display = 'block';
+    }
+
+    // 显示进度
+    function showProgress(percent) {
+      const progressContainer = document.getElementById('operation-progress');
+      const progressBar = document.getElementById('progress-bar');
+
+      progressContainer.style.display = 'block';
+      progressBar.style.width = percent + '%';
+      progressBar.textContent = Math.round(percent) + '%';
+    }
+
+    // 隐藏进度
+    function hideProgress() {
+      document.getElementById('operation-progress').style.display = 'none';
+    }
+
+    // 显示操作结果
+    function showResult(type, message) {
+      const resultDiv = document.getElementById('operation-result');
+      resultDiv.innerHTML = `<div class="result ${type}">${message}</div>`;
+    }
+
+    // 显示注入结果
+    function showInjectionResult(type, message) {
+      const resultDiv = document.getElementById('injection-result');
+      resultDiv.innerHTML = `<div class="result ${type}">${message}</div>`;
+    }
+
+    // 日志功能
+    function log(message) {
+      const logOutput = document.getElementById('operation-log');
+      const timestamp = new Date().toLocaleTimeString();
+      const logEntry = `[${timestamp}] ${message}\n`;
+
+      logOutput.textContent += logEntry;
+      logOutput.scrollTop = logOutput.scrollHeight;
+
+      console.log(message);
+    }
+
+    function clearLog() {
+      document.getElementById('operation-log').textContent = '等待操作...\n';
+    }
+  </script>
+</body>
+
+</html>

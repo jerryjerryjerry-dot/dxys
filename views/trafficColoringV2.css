@@ -1,0 +1,1252 @@
+/* 流量染色页面V2样式 - 参考原版UI设计 */
+.traffic-coloring-v2-page {
+  padding: 16px;
+  background: #f5f5f5;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* 页面头部样式 */
+.traffic-coloring-v2-page .page-header {
+  background: white;
+  padding: 24px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.traffic-coloring-v2-page .header-content {
+  flex: 1;
+}
+
+.traffic-coloring-v2-page .page-title {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.traffic-coloring-v2-page .title-icon {
+  font-size: 20px;
+}
+
+.traffic-coloring-v2-page .page-description {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.traffic-coloring-v2-page .header-actions {
+  flex-shrink: 0;
+}
+
+.traffic-coloring-v2-page .btn-new {
+  background: #1890ff !important;
+  color: white !important;
+  border: none !important;
+  padding: 8px 16px !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  transition: background-color 0.3s !important;
+}
+
+.traffic-coloring-v2-page .btn-new:hover {
+  background: #40a9ff !important;
+}
+
+.traffic-coloring-v2-page .btn-icon {
+  font-size: 16px;
+}
+
+/* 过滤搜索栏样式 */
+.traffic-coloring-v2-page .filters-bar {
+  background: white;
+  padding: 16px 24px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.traffic-coloring-v2-page .search-section {
+  flex: 1;
+  min-width: 300px;
+}
+
+.traffic-coloring-v2-page .search-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.traffic-coloring-v2-page .search-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 16px;
+  color: #999;
+  z-index: 2;
+}
+
+.traffic-coloring-v2-page .search-input {
+  width: 100%;
+  height: 32px;
+  padding: 0 40px 0 36px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.traffic-coloring-v2-page .search-input:focus {
+  outline: none;
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.traffic-coloring-v2-page .search-clear-btn {
+  position: absolute;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: #f5f5f5;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 12px;
+  color: #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.traffic-coloring-v2-page .search-clear-btn:hover {
+  background: #e8e8e8;
+  color: #666;
+}
+
+.traffic-coloring-v2-page .filter-section {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.traffic-coloring-v2-page .filter-select {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+  min-width: 120px;
+}
+
+.traffic-coloring-v2-page .filter-select:focus {
+  outline: none;
+  border-color: #1890ff;
+}
+
+/* 批量操作栏样式 */
+.traffic-coloring-v2-page .batch-actions-bar {
+  background: #e6f7ff;
+  border: 1px solid #91d5ff;
+  padding: 12px 24px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.traffic-coloring-v2-page .selected-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #1890ff;
+  font-size: 14px;
+}
+
+.traffic-coloring-v2-page .selected-count {
+  font-weight: 500;
+}
+
+.traffic-coloring-v2-page .btn-clear-selection {
+  background: none;
+  border: none;
+  color: #1890ff;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.traffic-coloring-v2-page .batch-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+/* 表格容器样式 */
+.traffic-coloring-v2-page .table-container {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.traffic-coloring-v2-page .loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.traffic-coloring-v2-page .loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f0f0f0;
+  border-top: 3px solid #1890ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.traffic-coloring-v2-page .loading-text {
+  margin-top: 12px;
+  color: #666;
+  font-size: 14px;
+}
+
+/* 数据表格样式 */
+.traffic-coloring-v2-page .data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.traffic-coloring-v2-page .data-table th,
+.traffic-coloring-v2-page .data-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e8e8e8;
+  vertical-align: middle;
+}
+
+.traffic-coloring-v2-page .data-table th {
+  background: #fafafa;
+  font-weight: 500;
+  color: #333;
+  position: relative;
+}
+
+.traffic-coloring-v2-page .data-table tbody tr {
+  transition: background-color 0.3s;
+}
+
+.traffic-coloring-v2-page .data-table tbody tr:hover {
+  background: #f5f5f5;
+}
+
+.traffic-coloring-v2-page .checkbox-cell {
+  width: 40px;
+  text-align: center;
+}
+
+.traffic-coloring-v2-page .actions-cell {
+  width: 120px;
+}
+
+/* 复选框样式 */
+.traffic-coloring-v2-page .checkbox-wrapper {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.traffic-coloring-v2-page .checkbox-wrapper input[type="checkbox"] {
+  opacity: 0;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.traffic-coloring-v2-page .checkbox-mark {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  background: white;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.traffic-coloring-v2-page .checkbox-wrapper input[type="checkbox"]:checked + .checkbox-mark {
+  background: #1890ff;
+  border-color: #1890ff;
+}
+
+.traffic-coloring-v2-page .checkbox-wrapper input[type="checkbox"]:checked + .checkbox-mark::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.traffic-coloring-v2-page .checkbox-wrapper input[type="checkbox"]:indeterminate + .checkbox-mark {
+  background: #1890ff;
+  border-color: #1890ff;
+}
+
+.traffic-coloring-v2-page .checkbox-wrapper input[type="checkbox"]:indeterminate + .checkbox-mark::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 7px;
+  width: 8px;
+  height: 2px;
+  background: white;
+}
+
+/* 排序指示器样式 */
+.traffic-coloring-v2-page .sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.traffic-coloring-v2-page .sortable:hover {
+  background: #f0f0f0;
+}
+
+.traffic-coloring-v2-page .sort-indicator {
+  display: inline-block;
+  margin-left: 4px;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid #ccc;
+  transition: all 0.3s;
+}
+
+.traffic-coloring-v2-page .sort-indicator.sort-asc {
+  border-bottom: 4px solid #1890ff;
+  border-top: none;
+}
+
+.traffic-coloring-v2-page .sort-indicator.sort-desc {
+  border-top: 4px solid #1890ff;
+  border-bottom: none;
+}
+
+/* 策略名称样式 */
+.traffic-coloring-v2-page .strategy-name {
+  font-weight: 500;
+}
+
+.traffic-coloring-v2-page .name-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.traffic-coloring-v2-page .scope-badge {
+  background: #faad14;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+/* 范围标签样式 */
+.traffic-coloring-v2-page .scope-tag {
+  background: #f6ffed;
+  color: #52c41a;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: 12px;
+  border: 1px solid #b7eb8f;
+}
+
+/* 技术标签样式 */
+.traffic-coloring-v2-page .techniques-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.traffic-coloring-v2-page .technique-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.traffic-coloring-v2-page .technique-tag.tag-primary {
+  background: #e6f7e6;
+  color: #52c41a;
+  border: 1px solid #b7eb8f;
+}
+
+.traffic-coloring-v2-page .technique-tag.tag-info {
+  background: #e6f4ff;
+  color: #1890ff;
+  border: 1px solid #91d5ff;
+}
+
+.traffic-coloring-v2-page .technique-tag.tag-warning {
+  background: #fff7e6;
+  color: #faad14;
+  border: 1px solid #ffd591;
+}
+
+.traffic-coloring-v2-page .technique-tag.tag-default {
+  background: #f5f5f5;
+  color: #666;
+  border: 1px solid #d9d9d9;
+}
+
+/* 备注样式 */
+.traffic-coloring-v2-page .note-text {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #666;
+  font-size: 13px;
+}
+
+/* 状态开关样式 */
+.traffic-coloring-v2-page .status-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.traffic-coloring-v2-page .status-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.traffic-coloring-v2-page .switch-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 20px;
+}
+
+.traffic-coloring-v2-page .switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.traffic-coloring-v2-page input:checked + .switch-slider {
+  background-color: #1890ff;
+}
+
+.traffic-coloring-v2-page input:checked + .switch-slider:before {
+  transform: translateX(20px);
+}
+
+/* 时间样式 */
+.traffic-coloring-v2-page .time-text {
+  color: #666;
+  font-size: 13px;
+}
+
+/* 操作按钮样式 - 水平排列 */
+.traffic-coloring-v2-page .action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-start;
+}
+
+.traffic-coloring-v2-page .action-btn {
+  padding: 4px 12px !important;
+  border: 1px solid #d9d9d9 !important;
+  background: white !important;
+  cursor: pointer !important;
+  border-radius: 4px !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+  white-space: nowrap !important;
+  transition: all 0.2s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: auto !important;
+  height: 28px !important;
+}
+
+.traffic-coloring-v2-page .action-btn:hover {
+  border-color: #1890ff !important;
+  color: #1890ff !important;
+}
+
+.traffic-coloring-v2-page .action-btn.btn-danger:hover {
+  border-color: #ff4d4f !important;
+  color: #ff4d4f !important;
+}
+
+/* 按钮文字颜色样式 */
+.traffic-coloring-v2-page .btn-text {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
+
+/* 编辑按钮 - 蓝色 */
+.traffic-coloring-v2-page .edit-btn {
+  border-color: #1890ff !important;
+  color: #1890ff !important;
+}
+
+.traffic-coloring-v2-page .edit-btn:hover {
+  background: #e6f7ff !important;
+  border-color: #40a9ff !important;
+}
+
+/* 统计按钮 - 绿色 */
+.traffic-coloring-v2-page .stats-btn {
+  border-color: #52c41a !important;
+  color: #52c41a !important;
+}
+
+.traffic-coloring-v2-page .stats-btn:hover {
+  background: #f6ffed !important;
+  border-color: #73d13d !important;
+}
+
+/* 删除按钮 - 红色 */
+.traffic-coloring-v2-page .delete-btn {
+  border-color: #ff4d4f !important;
+  color: #ff4d4f !important;
+}
+
+.traffic-coloring-v2-page .delete-btn:hover {
+  background: #fff2f0 !important;
+  border-color: #ff7875 !important;
+}
+
+.traffic-coloring-v2-page .edit-text {
+  color: inherit !important;
+}
+
+.traffic-coloring-v2-page .stats-text {
+  color: #52c41a !important;
+}
+
+.traffic-coloring-v2-page .delete-text {
+  color: #ff4d4f !important;
+}
+
+.traffic-coloring-v2-page .edit-btn:hover .edit-text {
+  color: #40a9ff !important;
+}
+
+.traffic-coloring-v2-page .stats-btn:hover .stats-text {
+  color: #73d13d !important;
+}
+
+.traffic-coloring-v2-page .delete-btn:hover .delete-text {
+  color: #ff7875 !important;
+}
+
+/* 空状态样式 */
+.traffic-coloring-v2-page .empty-state {
+  padding: 80px 24px;
+  text-align: center;
+  color: #999;
+}
+
+.traffic-coloring-v2-page .empty-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.traffic-coloring-v2-page .empty-state h3 {
+  margin: 0 0 8px 0;
+  color: #666;
+  font-weight: 400;
+}
+
+.traffic-coloring-v2-page .empty-state p {
+  margin: 0 0 24px 0;
+  color: #999;
+}
+
+/* 分页样式 */
+.traffic-coloring-v2-page .pagination-container {
+  background: white;
+  padding: 16px 24px;
+  margin-top: 16px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.traffic-coloring-v2-page .pagination-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #666;
+  font-size: 14px;
+}
+
+.traffic-coloring-v2-page .total-info strong {
+  color: #333;
+}
+
+.traffic-coloring-v2-page .page-size-select {
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  font-size: 12px;
+  background: white;
+}
+
+.traffic-coloring-v2-page .pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.traffic-coloring-v2-page .page-btn {
+  padding: 4px 8px !important;
+  border: 1px solid #d9d9d9 !important;
+  background: white !important;
+  cursor: pointer !important;
+  font-size: 12px !important;
+  border-radius: 2px !important;
+  transition: all 0.3s !important;
+}
+
+.traffic-coloring-v2-page .page-btn:hover:not(:disabled) {
+  border-color: #1890ff !important;
+  color: #1890ff !important;
+}
+
+.traffic-coloring-v2-page .page-btn:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+.traffic-coloring-v2-page .page-numbers {
+  display: flex;
+  gap: 4px;
+}
+
+.traffic-coloring-v2-page .page-number {
+  padding: 4px 8px;
+  border: 1px solid #d9d9d9;
+  background: white;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 2px;
+  transition: all 0.3s;
+  min-width: 28px;
+  text-align: center;
+}
+
+.traffic-coloring-v2-page .page-number:hover {
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+.traffic-coloring-v2-page .page-number.active {
+  background: #1890ff;
+  color: white;
+  border-color: #1890ff;
+}
+
+.traffic-coloring-v2-page .page-ellipsis {
+  padding: 4px 8px;
+  color: #999;
+  font-size: 12px;
+}
+
+/* 通用按钮样式 */
+.traffic-coloring-v2-page .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  gap: 4px;
+}
+
+.traffic-coloring-v2-page .btn-sm {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.traffic-coloring-v2-page .btn-primary {
+  background: #1890ff;
+  color: white;
+  border-color: #1890ff;
+}
+
+.traffic-coloring-v2-page .btn-primary:hover {
+  background: #40a9ff;
+  border-color: #40a9ff;
+}
+
+.traffic-coloring-v2-page .btn-success {
+  background: #52c41a;
+  color: white;
+  border-color: #52c41a;
+}
+
+.traffic-coloring-v2-page .btn-success:hover {
+  background: #73d13d;
+  border-color: #73d13d;
+}
+
+.traffic-coloring-v2-page .btn-warning {
+  background: #faad14;
+  color: white;
+  border-color: #faad14;
+}
+
+.traffic-coloring-v2-page .btn-warning:hover {
+  background: #ffc53d;
+  border-color: #ffc53d;
+}
+
+.traffic-coloring-v2-page .btn-danger {
+  background: #ff4d4f;
+  color: white;
+  border-color: #ff4d4f;
+}
+
+.traffic-coloring-v2-page .btn-danger:hover {
+  background: #ff7875;
+  border-color: #ff7875;
+}
+
+.traffic-coloring-v2-page .btn-outline {
+  background: white;
+  color: #666;
+  border-color: #d9d9d9;
+}
+
+.traffic-coloring-v2-page .btn-outline:hover {
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+/* 消息提示样式 */
+.message-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.message {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 300px;
+  pointer-events: auto;
+  transform: translateX(100%);
+  transition: all 0.3s ease-in-out;
+  border-left: 4px solid #1890ff;
+}
+
+.message.show {
+  transform: translateX(0);
+}
+
+.message-success {
+  border-left-color: #52c41a;
+}
+
+.message-error {
+  border-left-color: #ff4d4f;
+}
+
+.message-warning {
+  border-left-color: #faad14;
+}
+
+.message-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.message-text {
+  flex: 1;
+  font-size: 14px;
+  color: #333;
+}
+
+.message-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.message-close:hover {
+  color: #666;
+}
+
+/* 动画效果 */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .traffic-coloring-v2-page .page-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+  
+  .traffic-coloring-v2-page .filters-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .traffic-coloring-v2-page .search-section {
+    min-width: auto;
+  }
+  
+  .traffic-coloring-v2-page .filter-section {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .traffic-coloring-v2-page {
+    padding: 8px;
+  }
+  
+  .traffic-coloring-v2-page .page-header,
+  .traffic-coloring-v2-page .filters-bar,
+  .traffic-coloring-v2-page .pagination-container {
+    padding: 16px;
+  }
+  
+  .traffic-coloring-v2-page .data-table {
+    font-size: 12px;
+  }
+  
+  .traffic-coloring-v2-page .data-table th,
+  .traffic-coloring-v2-page .data-table td {
+    padding: 8px;
+  }
+  
+  .traffic-coloring-v2-page .pagination-container {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .traffic-coloring-v2-page .pagination-controls {
+    justify-content: center;
+  }
+}
+
+/* 策略面板样式 - 参考原版设计 */
+.strategy-panel-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  z-index: 9998 !important;
+  opacity: 0 !important;
+  transition: opacity 0.3s ease-in-out !important;
+}
+
+.strategy-panel-overlay.show {
+  opacity: 1 !important;
+}
+
+.strategy-panel {
+  position: fixed !important;
+  top: 0 !important;
+  right: -640px !important;
+  width: 640px !important;
+  height: 100vh !important;
+  background: #fff !important;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15) !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  transition: right 0.3s ease-in-out !important;
+}
+
+.strategy-panel.show {
+  right: 0 !important;
+}
+
+.strategy-panel .panel-header {
+  padding: 16px 24px !important;
+  border-bottom: 1px solid #f0f0f0 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.strategy-panel .panel-header h3 {
+  margin: 0 !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+}
+
+.strategy-panel .panel-close-btn {
+  border: none !important;
+  background: none !important;
+  font-size: 20px !important;
+  cursor: pointer !important;
+  color: #999 !important;
+}
+
+.strategy-panel .panel-body {
+  flex: 1 !important;
+  padding: 24px !important;
+  overflow-y: auto !important;
+}
+
+.strategy-panel .form-section {
+  margin-bottom: 32px !important;
+}
+
+.strategy-panel .section-title {
+  margin: 0 0 16px 0 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #333 !important;
+}
+
+.strategy-panel .form-row {
+  margin-bottom: 16px !important;
+}
+
+.strategy-panel .form-group {
+  width: 100% !important;
+}
+
+.strategy-panel .form-label {
+  display: block !important;
+  margin-bottom: 8px !important;
+  font-size: 14px !important;
+  color: #333 !important;
+}
+
+.strategy-panel .form-label.required::before {
+  content: "*" !important;
+  color: #ff4d4f !important;
+  margin-right: 4px !important;
+}
+
+.strategy-panel .form-input,
+.strategy-panel .form-select {
+  width: 100% !important;
+  height: 32px !important;
+  padding: 4px 11px !important;
+  border: 1px solid #d9d9d9 !important;
+  border-radius: 4px !important;
+  font-size: 14px !important;
+  transition: border-color 0.3s !important;
+}
+
+.strategy-panel .form-input:focus,
+.strategy-panel .form-select:focus {
+  outline: none !important;
+  border-color: #1890ff !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+}
+
+.strategy-panel .form-textarea {
+  width: 100% !important;
+  padding: 8px 11px !important;
+  border: 1px solid #d9d9d9 !important;
+  border-radius: 4px !important;
+  font-size: 14px !important;
+  resize: vertical !important;
+  min-height: 80px !important;
+}
+
+.strategy-panel .switch-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+}
+
+.strategy-panel .switch-wrapper .switch-input {
+  width: auto !important;
+  height: auto !important;
+}
+
+.strategy-panel .switch-label {
+  font-size: 14px !important;
+  color: #333 !important;
+}
+
+.strategy-panel .radio-group {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+.strategy-panel .radio-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+}
+
+.strategy-panel .radio-item input[type="radio"] {
+  width: 16px !important;
+  height: 16px !important;
+  cursor: pointer !important;
+}
+
+.strategy-panel .checkbox-wrapper {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+  margin-bottom: 12px !important;
+}
+
+.strategy-panel .main-checkbox {
+  font-weight: 500 !important;
+}
+
+.strategy-panel .sub-options {
+  margin-left: 24px !important;
+  margin-top: 8px !important;
+  padding-left: 16px !important;
+  border-left: 2px solid #f0f0f0 !important;
+}
+
+.strategy-panel .sub-checkbox {
+  font-weight: normal !important;
+  color: #666 !important;
+}
+
+.strategy-panel .technique-desc {
+  color: #999 !important;
+  font-size: 12px !important;
+  margin-top: 4px !important;
+  margin-left: 24px !important;
+}
+
+.strategy-panel .form-error {
+  color: #ff4d4f !important;
+  font-size: 12px !important;
+  margin-top: 4px !important;
+  display: none !important;
+}
+
+.strategy-panel .form-input.error,
+.strategy-panel .form-select.error,
+.strategy-panel .form-textarea.error {
+  border-color: #ff4d4f !important;
+}
+
+.strategy-panel .panel-footer {
+  padding: 16px 24px !important;
+  border-top: 1px solid #f0f0f0 !important;
+  text-align: right !important;
+}
+
+.strategy-panel .panel-cancel {
+  margin-right: 8px !important;
+  padding: 8px 16px !important;
+  border: 1px solid #d9d9d9 !important;
+  background: white !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+}
+
+.strategy-panel .panel-confirm {
+  padding: 8px 16px !important;
+  background: #1890ff !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+}
+
+.strategy-panel .panel-confirm:hover {
+  background: #40a9ff !important;
+}
+
+.strategy-panel .panel-confirm:disabled {
+  background: #ccc !important;
+  cursor: not-allowed !important;
+}
+
+/* 统计弹窗样式 */
+.stats-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stats-modal {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 600px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stats-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.stats-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+}
+
+.stats-content {
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.stat-item {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1890ff;
+}
+
+.stats-chart {
+  background: #f8f9fa;
+  padding: 40px;
+  border-radius: 6px;
+  text-align: center;
+  color: #999;
+}

@@ -1,0 +1,838 @@
+/* 数字水印V2页面样式 - ToB企业级风格 */
+.digital-watermark-page {
+    background: #f5f5f5;
+    min-height: 100vh;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* 页面头部 - 更紧凑的设计 */
+.digital-watermark-page .page-header {
+    background: white;
+    padding: 12px 0;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #e5e5e5;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.digital-watermark-page .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.digital-watermark-page .page-title {
+    color: #262626;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 4px 0;
+    display: flex;
+    align-items: center;
+}
+
+.digital-watermark-page .page-title::before {
+    content: "🛡️";
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.digital-watermark-page .page-desc {
+    color: #8c8c8c;
+    font-size: 12px;
+    margin: 0;
+}
+
+/* 主要内容区域 - 更紧凑的布局 */
+.digital-watermark-page .main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 配置卡片 - 企业级简洁设计 */
+.digital-watermark-page .config-card {
+    background: white;
+    border-radius: 2px;
+    margin-bottom: 12px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+.digital-watermark-page .card-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fafafa;
+}
+
+.digital-watermark-page .card-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #262626;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.digital-watermark-page .card-title::before {
+    content: "⚙️";
+    margin-right: 6px;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.digital-watermark-page .card-body {
+    padding: 16px;
+}
+
+/* 开关控制 - 更小巧的企业级设计 */
+.digital-watermark-page .switch-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: #f9f9f9;
+    border: 1px solid #e8e8e8;
+    border-radius: 2px;
+}
+
+.digital-watermark-page .modern-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.digital-watermark-page .modern-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.digital-watermark-page .switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #cbd5e1;
+    transition: 0.3s ease;
+    border-radius: 32px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.digital-watermark-page .switch-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.2s ease;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.digital-watermark-page input:checked + .switch-slider {
+    background: #1890ff;
+}
+
+.digital-watermark-page input:checked + .switch-slider:before {
+    transform: translateX(20px);
+}
+
+.digital-watermark-page .switch-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.digital-watermark-page .switch-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #262626;
+}
+
+.digital-watermark-page .switch-desc {
+    font-size: 12px;
+    color: #8c8c8c;
+    line-height: 1.4;
+}
+
+/* 配置区域 - 更紧凑的间距 */
+.digital-watermark-page .config-section {
+    margin-bottom: 24px;
+}
+
+.digital-watermark-page .config-section:last-child {
+    margin-bottom: 0;
+}
+
+.digital-watermark-page .section-header {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.digital-watermark-page .section-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #262626;
+    margin: 0 0 4px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.digital-watermark-page .section-title.required::after {
+    content: " *";
+    color: #ff4d4f;
+}
+
+.digital-watermark-page .section-desc {
+    font-size: 12px;
+    color: #8c8c8c;
+    line-height: 1.4;
+}
+
+/* 水印类型选择器 - 更紧凑的企业级设计 */
+.digital-watermark-page .type-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px;
+}
+
+.digital-watermark-page .type-card {
+    position: relative;
+    cursor: pointer;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    padding: 12px;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.digital-watermark-page .type-card:hover {
+    border-color: #1890ff;
+    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.1);
+}
+
+.digital-watermark-page .type-card.selected {
+    border-color: #1890ff;
+    background: #f6ffed;
+    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.15);
+}
+
+.digital-watermark-page .type-card input {
+    position: absolute;
+    opacity: 0;
+}
+
+.digital-watermark-page .type-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.digital-watermark-page .type-icon {
+    font-size: 16px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f5f5;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.digital-watermark-page .type-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.digital-watermark-page .type-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #262626;
+}
+
+.digital-watermark-page .type-desc {
+    font-size: 11px;
+    color: #8c8c8c;
+}
+
+/* 内容构建器 - 简洁列表式设计 */
+.digital-watermark-page .content-builder {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.digital-watermark-page .content-item {
+    background: #fafafa;
+    border: 1px solid #e8e8e8;
+    border-radius: 2px;
+    padding: 12px;
+    transition: all 0.2s ease;
+}
+
+.digital-watermark-page .content-item:hover {
+    border-color: #1890ff;
+    box-shadow: 0 1px 3px rgba(24, 144, 255, 0.1);
+}
+
+.digital-watermark-page .item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.digital-watermark-page .item-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #595959;
+}
+
+.digital-watermark-page .btn-remove {
+    background: none;
+    border: none;
+    color: #ff4d4f;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-size: 12px;
+}
+
+.digital-watermark-page .btn-remove:hover {
+    color: #ff7875;
+    background: #fff2f0;
+}
+
+.digital-watermark-page .remove-icon {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.digital-watermark-page .content-select {
+    width: 100%;
+    height: 28px;
+    padding: 4px 8px;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    font-size: 12px;
+    background: white;
+}
+
+.digital-watermark-page .content-select:focus {
+    outline: none;
+    border-color: #1890ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
+}
+
+.digital-watermark-page .btn-add-content {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: white;
+    border: 1px dashed #d9d9d9;
+    border-radius: 2px;
+    color: #8c8c8c;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.digital-watermark-page .btn-add-content:hover {
+    border-color: #1890ff;
+    color: #1890ff;
+    background: #f6ffed;
+}
+
+.digital-watermark-page .add-icon {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* 样式网格 - 更紧凑的ToB设计 */
+.digital-watermark-page .style-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.digital-watermark-page .style-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.digital-watermark-page .style-label {
+    font-size: 11px;
+    font-weight: 400;
+    color: #8c8c8c;
+}
+
+.digital-watermark-page .color-picker {
+    display: flex;
+    align-items: center;
+    height: 28px;
+}
+
+.digital-watermark-page .color-input {
+    width: 40px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    background: white;
+    cursor: pointer;
+}
+
+.digital-watermark-page .color-input:focus {
+    outline: none;
+    border-color: #1890ff;
+}
+
+.digital-watermark-page .color-input::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.digital-watermark-page .color-input::-webkit-color-swatch {
+    border: none;
+    border-radius: 2px;
+}
+
+.digital-watermark-page .style-select {
+    height: 28px;
+    padding: 4px 8px;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    font-size: 12px;
+    background: white;
+}
+
+.digital-watermark-page .style-select:focus {
+    outline: none;
+    border-color: #1890ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
+}
+
+/* 预览区域 - 更紧凑的企业级设计 */
+.digital-watermark-page .preview-container {
+    background: #fafafa;
+    border-radius: 2px;
+    padding: 12px;
+    border: 1px solid #e8e8e8;
+}
+
+.digital-watermark-page .preview-area {
+    width: 100%;
+    height: 150px;
+    border: 1px dashed #d9d9d9;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+    position: relative;
+}
+
+.digital-watermark-page .preview-area:hover {
+    border-color: #1890ff;
+    background: #f6ffed;
+}
+
+.digital-watermark-page .preview-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: #64748b;
+}
+
+.digital-watermark-page .preview-icon {
+    font-size: 32px;
+}
+
+.digital-watermark-page .preview-text {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.digital-watermark-page .preview-close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.digital-watermark-page .preview-close-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+}
+
+.digital-watermark-page .close-icon {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* 时间选择网格 */
+.digital-watermark-page .timing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.digital-watermark-page .timing-option {
+    position: relative;
+    cursor: pointer;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.digital-watermark-page .timing-option:hover {
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+}
+
+.digital-watermark-page .timing-option input:checked + .timing-content {
+    border-color: #3b82f6;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+}
+
+.digital-watermark-page .timing-option input {
+    position: absolute;
+    opacity: 0;
+}
+
+.digital-watermark-page .timing-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.digital-watermark-page .timing-icon {
+    font-size: 24px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border-radius: 12px;
+}
+
+.digital-watermark-page .timing-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.digital-watermark-page .timing-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.digital-watermark-page .timing-desc {
+    font-size: 14px;
+    color: #64748b;
+}
+
+/* 范围选择 */
+.digital-watermark-page .scope-container {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.digital-watermark-page .scope-header {
+    margin-bottom: 20px;
+}
+
+.digital-watermark-page .scope-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.digital-watermark-page .scope-options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.digital-watermark-page .scope-option {
+    position: relative;
+    cursor: pointer;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.digital-watermark-page .scope-option:hover {
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+}
+
+.digital-watermark-page .scope-option input:checked + .scope-content {
+    border-color: #3b82f6;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+}
+
+.digital-watermark-page .scope-option input {
+    position: absolute;
+    opacity: 0;
+}
+
+.digital-watermark-page .scope-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.digital-watermark-page .scope-icon {
+    font-size: 24px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border-radius: 12px;
+}
+
+.digital-watermark-page .scope-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.digital-watermark-page .scope-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.digital-watermark-page .scope-desc {
+    font-size: 14px;
+    color: #64748b;
+}
+
+/* 指定选择样式 */
+.digital-watermark-page .specific-selection {
+    margin-top: 20px;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    background: #fafafa;
+}
+
+.digital-watermark-page .selection-tabs {
+    display: flex;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.digital-watermark-page .tab-btn {
+    flex: 1;
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.digital-watermark-page .tab-btn.active {
+    background: white;
+    color: #1890ff;
+    border-bottom: 2px solid #1890ff;
+}
+
+.digital-watermark-page .tab-panel {
+    display: none;
+    padding: 16px;
+    background: white;
+}
+
+.digital-watermark-page .tab-panel.active {
+    display: block;
+}
+
+.digital-watermark-page .selection-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.digital-watermark-page .selection-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.digital-watermark-page .selection-count {
+    font-size: 12px;
+    color: #666;
+}
+
+.digital-watermark-page .selection-list {
+    max-height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.digital-watermark-page .selection-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.digital-watermark-page .selection-item:hover {
+    border-color: #1890ff;
+    background: #f6ffed;
+}
+
+.digital-watermark-page .selection-item input[type="checkbox"] {
+    margin-right: 12px;
+}
+
+.digital-watermark-page .item-content {
+    flex: 1;
+}
+
+.digital-watermark-page .item-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.digital-watermark-page .item-info {
+    font-size: 12px;
+    color: #666;
+}
+
+/* 操作栏 */
+.digital-watermark-page .action-bar {
+    background: white;
+    border-radius: 4px;
+    padding: 16px 24px;
+    margin-top: 24px;
+    border-top: 1px solid #f0f0f0;
+    text-align: right;
+}
+
+.digital-watermark-page .action-content {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.digital-watermark-page .btn-secondary {
+    margin-right: 8px;
+    padding: 8px 16px;
+    border: 1px solid #d9d9d9;
+    background: white;
+    border-radius: 4px;
+    color: #666;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.digital-watermark-page .btn-secondary:hover {
+    border-color: #1890ff;
+    color: #1890ff;
+}
+
+.digital-watermark-page .btn-primary {
+    padding: 6px 12px;
+    background: #1890ff;
+    color: white;
+    border: none;
+    border-radius: 2px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 400;
+    transition: all 0.2s ease;
+}
+
+.digital-watermark-page .btn-primary:hover {
+    background: #40a9ff;
+    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.3);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .digital-watermark-page .main-content {
+        padding: 0 16px 24px;
+    }
+    
+    .digital-watermark-page .card-body {
+        padding: 24px 20px;
+    }
+    
+    .digital-watermark-page .type-selector,
+    .digital-watermark-page .timing-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .digital-watermark-page .style-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .digital-watermark-page .action-content {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>开放接口 - 流量安全识别</title>
+  <link rel="stylesheet" href="global.css">
+</head>
+
+<body>
+  <div class="layout">
+    <!-- 左侧菜单 -->
+    <div class="sidebar">
+      <div class="logo">
+        <div class="logo-text">流量安全识别</div>
+      </div>
+      <nav>
+        <a href="index.html" class="menu-item">
+          <i>🔍</i>
+          <span>应用识别</span>
+        </a>
+        <a href="app-management.html" class="menu-item">
+          <i>📊</i>
+          <span>应用管理</span>
+        </a>
+        <a href="traffic-coloring.html" class="menu-item">
+          <i>🎨</i>
+          <span>流量染色</span>
+        </a>
+        <a href="digital-watermark.html" class="menu-item">
+          <i>📝</i>
+          <span>数字水印</span>
+        </a>
+        <a href="watermark-trace.html" class="menu-item">
+          <i>💧</i>
+          <span>水印溯源</span>
+        </a>
+        <a href="operation-log.html" class="menu-item">
+          <i>📋</i>
+          <span>操作日志</span>
+        </a>
+        <a href="open-api.html" class="menu-item active">
+          <i>🔌</i>
+          <span>开放接口</span>
+        </a>
+        <a href="#" class="menu-item logout-item" onclick="logout()">
+          <i>🚪</i>
+          <span>退出登录</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="main-content" id="app-content">
+      <!-- 页面内容将由 JavaScript 动态插入 -->
+    </div>
+  </div>
+
+  <!-- 登录验证脚本 -->
+  <script src="auth.js"></script>
+
+  <!-- Dexie.js 数据库库 -->
+  <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.js"></script>
+
+  <!-- 应用数据管理器V2 -->
+  <script src="AppDataManagerV2.js"></script>
+
+  <!-- 开放接口 V2 -->
+  <script src="views/openApiV2.js"></script>
+
+  <script>
+    // 页面初始化
+    document.addEventListener('DOMContentLoaded', async function () {
+      console.log('🚀 开放接口页面加载');
+
+      try {
+        // 初始化数据管理器
+        if (window.AppDataManagerV2 && !window.AppDataManagerV2.initialized) {
+          await window.AppDataManagerV2.init();
+        }
+
+        // 初始化并渲染页面内容
+        if (window.openApiV2) {
+          // 先初始化模块（加载数据）
+          await window.openApiV2.init();
+
+          // 再渲染页面内容（此时数据已加载）
+          const content = window.openApiV2.content();
+          document.getElementById('app-content').innerHTML = content;
+
+          console.log('✅ 开放接口页面初始化完成');
+        } else {
+          document.getElementById('app-content').innerHTML = '<div style="padding: 40px; text-align: center;">开放接口模块加载失败</div>';
+        }
+      } catch (error) {
+        console.error('❌ 页面初始化失败:', error);
+        document.getElementById('app-content').innerHTML = `
+                    <div style="padding: 40px; text-align: center; color: #ff4d4f;">
+                        <h3>页面初始化失败</h3>
+                        <p>错误信息: ${error.message}</p>
+                        <button onclick="location.reload()" style="margin-top: 20px; padding: 8px 16px; background: #1890ff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                            重新加载页面
+                        </button>
+                    </div>
+                `;
+      }
+    });
+  </script>
+</body>
+
+</html>

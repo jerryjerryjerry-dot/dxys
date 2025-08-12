@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员登录 - 流量安全识别</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #f5f6f7;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            padding: 40px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1e2329;
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-container .form-input {
+            padding-right: 40px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #999;
+            font-size: 16px;
+            padding: 4px;
+            transition: color 0.3s;
+        }
+
+        .password-toggle:hover {
+            color: #666;
+        }
+
+        .password-toggle:focus {
+            outline: none;
+            color: #1890ff;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1890ff;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            background: #1890ff;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #40a9ff;
+        }
+
+        .login-btn:active {
+            background: #096dd9;
+        }
+
+        .error-message {
+            color: #ff4d4f;
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #1890ff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 24px;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .forgot-password-link {
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .forgot-password-link a {
+            color: #1890ff;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .forgot-password-link a:hover {
+            color: #40a9ff;
+            text-decoration: underline;
+        }
+
+        /* 模态框样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            width: 450px;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 24px 24px 16px 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: #6b7280;
+            margin: 4px 0 0 0;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-footer {
+            padding: 16px 24px 24px 24px;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background: #1890ff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #40a9ff;
+        }
+
+        .btn-primary:disabled {
+            background: #d9d9d9;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #666;
+            border-color: #d9d9d9;
+        }
+
+        .btn-secondary:hover {
+            color: #333;
+            border-color: #999;
+        }
+
+        .success-message {
+            color: #52c41a;
+            background: #f6ffed;
+            border: 1px solid #b7eb8f;
+            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="login-logo">流量安全识别</div>
+            <div class="login-subtitle">管理员登录</div>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label class="form-label" for="username">用户名</label>
+                <input type="text" id="username" name="username" class="form-input" placeholder="请输入用户名" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">密码</label>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" class="form-input" placeholder="请输入密码"
+                        required>
+                    <button type="button" class="password-toggle">
+                        <i class="fa fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                登录
+            </button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <div style="margin-top: 8px; color: #666;">登录中...</div>
+            </div>
+        </form>
+
+        <div class="forgot-password-link">
+            <a href="#" onclick="openResetPasswordModal()">忘记密码？</a>
+        </div>
+
+        <div class="footer">
+            © 2025 流量安全识别系统
+        </div>
+    </div>
+
+    <!-- 密码重置模态框 -->
+    <div class="modal-overlay" id="resetPasswordModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">重置密码</h3>
+                <p class="modal-subtitle">请填写相关信息以重置您的密码</p>
+            </div>
+            <div class="modal-body">
+                <div id="resetPasswordContent">
+                    <!-- 直接重置密码表单 -->
+                    <div id="resetForm" class="reset-step-content">
+                        <div class="form-group">
+                            <label class="form-label" for="resetUsername">用户名</label>
+                            <input type="text" id="resetUsername" class="form-input" placeholder="请输入用户名" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="newPassword">新密码</label>
+                            <div class="password-container">
+                                <input type="password" id="newPassword" class="form-input" placeholder="请输入新密码"
+                                    required>
+                                <button type="button" class="password-toggle" onclick="toggleNewPasswordVisibility()">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="confirmPassword">确认密码</label>
+                            <div class="password-container">
+                                <input type="password" id="confirmPassword" class="form-input" placeholder="请再次输入新密码"
+                                    required>
+                                <button type="button" class="password-toggle"
+                                    onclick="toggleConfirmPasswordVisibility()">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="error-message" id="resetErrorMessage"></div>
+                    </div>
+
+                    <!-- 重置成功 -->
+                    <div id="resetSuccess" class="reset-step-content" style="display: none;">
+                        <div class="success-message">
+                            <strong>密码重置成功！</strong><br>
+                            您的密码已成功重置，请使用新密码登录。
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeResetPasswordModal()">取消</button>
+                <button type="button" class="btn btn-primary" id="resetActionBtn"
+                    onclick="handleResetAction()">重置密码</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dexie.js 数据库库 -->
+    <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.js"></script>
+    <!-- 应用数据管理器V2 -->
+    <script src="AppDataManagerV2.js"></script>
+
+    <script>
+        // 硬编码的管理员账号密码
+        const ADMIN_CREDENTIALS = {
+            username: 'admin',
+            password: 'admin@123'
+        };
+
+        // 检查登录状态
+        function checkLoginStatus() {
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            if (isLoggedIn === 'true') {
+                // 如果已登录，直接跳转到主页面
+                window.location.href = 'index.html';
+            }
+        }
+
+        // 显示错误信息
+        function showError(message) {
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        // 隐藏错误信息
+        function hideError() {
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.style.display = 'none';
+        }
+
+        // 显示加载状态
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('loginBtn').style.display = 'none';
+        }
+
+        // 隐藏加载状态
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('loginBtn').style.display = 'block';
+        }
+
+        // 验证登录
+        function validateLogin(username, password) {
+            return new Promise((resolve) => {
+                // 模拟网络延迟
+                setTimeout(() => {
+                    if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                }, 1000);
+            });
+        }
+
+        // 处理登录
+        async function handleLogin(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            // 基本验证
+            if (!username || !password) {
+                showError('请输入用户名和密码');
+                return;
+            }
+
+            hideError();
+            showLoading();
+
+            try {
+                const isValid = await validateLogin(username, password);
+
+                if (isValid) {
+                    // 登录成功
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('loginTime', new Date().toISOString());
+
+                    // 跳转到主页面
+                    window.location.href = 'index.html';
+                } else {
+                    // 登录失败
+                    hideLoading();
+                    showError('用户名或密码错误');
+                }
+            } catch (error) {
+                hideLoading();
+                showError('登录失败，请稍后重试');
+            }
+        }
+
+        // 绑定事件
+        document.getElementById('loginForm').addEventListener('submit', handleLogin);
+
+        // 密码显示/隐藏切换功能
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const toggleButton = document.querySelector('.password-toggle i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.className = 'fa fa-eye-slash';
+                toggleButton.title = '隐藏密码';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.className = 'fa fa-eye';
+                toggleButton.title = '显示密码';
+            }
+        }
+
+        // 绑定密码切换按钮事件
+        document.querySelector('.password-toggle').addEventListener('click', togglePasswordVisibility);
+
+        // ===== 密码重置相关功能 =====
+
+        // 初始化数据管理器
+        async function initDataManager() {
+            try {
+                if (window.AppDataManagerV2 && !window.AppDataManagerV2.initialized) {
+                    await window.AppDataManagerV2.init();
+                }
+            } catch (error) {
+                console.error('❌ 数据管理器初始化失败:', error);
+            }
+        }
+
+        // 打开重置密码模态框
+        function openResetPasswordModal() {
+            resetResetModal(); // 重置模态框状态
+            document.getElementById('resetPasswordModal').classList.add('active');
+        }
+
+        // 关闭重置密码模态框
+        function closeResetPasswordModal() {
+            document.getElementById('resetPasswordModal').classList.remove('active');
+            resetResetModal();
+        }
+
+        // 重置模态框状态
+        function resetResetModal() {
+            // 显示表单，隐藏成功页面
+            document.getElementById('resetForm').style.display = 'block';
+            document.getElementById('resetSuccess').style.display = 'none';
+
+            // 重置按钮文本
+            document.getElementById('resetActionBtn').textContent = '重置密码';
+            document.getElementById('resetActionBtn').disabled = false;
+
+            // 清空输入框
+            document.getElementById('resetUsername').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+
+            // 隐藏错误消息
+            document.getElementById('resetErrorMessage').style.display = 'none';
+        }
+
+        // 处理重置操作
+        async function handleResetAction() {
+            const actionBtn = document.getElementById('resetActionBtn');
+
+            // 如果当前显示的是成功页面，则关闭模态框
+            if (document.getElementById('resetSuccess').style.display !== 'none') {
+                closeResetPasswordModal();
+                return;
+            }
+
+            try {
+                actionBtn.disabled = true;
+                actionBtn.textContent = '重置中...';
+
+                await handlePasswordReset();
+
+            } catch (error) {
+                console.error('重置操作失败:', error);
+                showResetError(error.message);
+                actionBtn.textContent = '重置密码';
+            } finally {
+                actionBtn.disabled = false;
+            }
+        }
+
+        // 处理密码重置
+        async function handlePasswordReset() {
+            const username = document.getElementById('resetUsername').value.trim();
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (!username) {
+                showResetError('请输入用户名');
+                return;
+            }
+
+            if (!newPassword || !confirmPassword) {
+                showResetError('请输入新密码和确认密码');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showResetError('两次输入的密码不一致');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                showResetError('密码长度至少为6位');
+                return;
+            }
+
+            // 验证用户名（这里可以添加更多验证逻辑）
+            if (username !== 'admin') {
+                showResetError('用户名不存在');
+                return;
+            }
+
+            // 确保数据管理器已初始化
+            await initDataManager();
+
+            if (!window.AppDataManagerV2 || !window.AppDataManagerV2.initialized) {
+                showResetError('数据管理器未初始化，请刷新页面重试');
+                return;
+            }
+
+            // 创建重置记录（用于审计）
+            const resetRequest = await window.AppDataManagerV2.passwordResets.createResetRequest(username, 'admin@example.com');
+
+            // 立即完成重置
+            const result = await window.AppDataManagerV2.passwordResets.completeReset(resetRequest.resetToken, newPassword);
+
+            if (result.success) {
+                // 在实际应用中，这里应该更新用户的实际密码
+                // 由于这是演示版本，我们只是记录操作
+                console.log('✅ 密码重置成功，新密码:', newPassword);
+
+                showResetSuccess();
+            } else {
+                showResetError(result.message || '密码重置失败');
+            }
+        }
+
+        // 显示重置成功
+        function showResetSuccess() {
+            hideResetError();
+            document.getElementById('resetForm').style.display = 'none';
+            document.getElementById('resetSuccess').style.display = 'block';
+            document.getElementById('resetActionBtn').textContent = '完成';
+        }
+
+        // 密码显示/隐藏切换功能 - 新密码
+        function toggleNewPasswordVisibility() {
+            const passwordInput = document.getElementById('newPassword');
+            const toggleButton = passwordInput.nextElementSibling.querySelector('i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.className = 'fa fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.className = 'fa fa-eye';
+            }
+        }
+
+        // 密码显示/隐藏切换功能 - 确认密码
+        function toggleConfirmPasswordVisibility() {
+            const passwordInput = document.getElementById('confirmPassword');
+            const toggleButton = passwordInput.nextElementSibling.querySelector('i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.className = 'fa fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.className = 'fa fa-eye';
+            }
+        }
+
+        // 显示重置错误消息
+        function showResetError(message) {
+            const errorElement = document.getElementById('resetErrorMessage');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        // 隐藏重置错误消息
+        function hideResetError() {
+            document.getElementById('resetErrorMessage').style.display = 'none';
+        }
+
+        // 点击模态框遮罩层关闭模态框
+        document.getElementById('resetPasswordModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeResetPasswordModal();
+            }
+        });
+
+        // 页面加载时检查登录状态
+        document.addEventListener('DOMContentLoaded', function () {
+            checkLoginStatus();
+            // 初始化数据管理器
+            initDataManager();
+        });
+
+        // 防止直接访问主页面
+        if (window.location.pathname.includes('index.html')) {
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            if (isLoggedIn !== 'true') {
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+
+</html>

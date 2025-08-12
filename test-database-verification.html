@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据库存储验证</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #1890ff;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .test-section {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #e8e8e8;
+      border-radius: 4px;
+    }
+
+    .test-title {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .result {
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px 0;
+    }
+
+    .success {
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      color: #389e0d;
+    }
+
+    .error {
+      background: #fff2f0;
+      border: 1px solid #ffccc7;
+      color: #cf1322;
+    }
+
+    .info {
+      background: #e6f7ff;
+      border: 1px solid #91d5ff;
+      color: #1890ff;
+    }
+
+    button {
+      background: #1890ff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    button:hover {
+      background: #40a9ff;
+    }
+
+    pre {
+      background: #f8f8f8;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .stat-card {
+      background: #fafafa;
+      padding: 15px;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1890ff;
+    }
+
+    .stat-label {
+      color: #666;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>🔍 数据库存储验证工具</h1>
+
+    <div class="test-section">
+      <div class="test-title">1. 数据库连接状态</div>
+      <div id="db-status" class="result info">检测中...</div>
+      <button onclick="checkDatabaseConnection()">重新检测</button>
+    </div>
+
+    <div class="test-section">
+      <div class="test-title">2. 数据统计</div>
+      <div class="stats" id="data-stats">
+        <div class="stat-card">
+          <div class="stat-number" id="coloring-count">-</div>
+          <div class="stat-label">流量染色策略</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="recognition-count">-</div>
+          <div class="stat-label">识别策略</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="apps-count">-</div>
+          <div class="stat-label">应用总数</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="watermark-count">-</div>
+          <div class="stat-label">水印配置</div>
+        </div>
+      </div>
+      <button onclick="loadDataStats()">刷新统计</button>
+    </div>
+
+    <div class="test-section">
+      <div class="test-title">3. 流量染色策略详情</div>
+      <div id="strategies-list"></div>
+      <button onclick="loadStrategies()">加载策略</button>
+      <button onclick="testAddStrategy()">测试添加</button>
+      <button onclick="clearAllStrategies()">清空所有策略</button>
+    </div>
+
+    <div class="test-section">
+      <div class="test-title">4. 数据库原生操作测试</div>
+      <div id="raw-operations"></div>
+      <button onclick="testRawOperations()">执行原生操作</button>
+    </div>
+
+    <div class="test-section">
+      <div class="test-title">5. 浏览器开发者工具检查</div>
+      <div class="result info">
+        <strong>手动验证步骤：</strong><br>
+        1. 按 F12 打开开发者工具<br>
+        2. 切换到 "Application" 标签<br>
+        3. 在左侧找到 "Storage" → "IndexedDB"<br>
+        4. 展开 "TrafficSecurityV2DB" 数据库<br>
+        5. 查看 "coloringStrategies" 表中的数据
+      </div>
+    </div>
+  </div>
+
+  <!-- 引入依赖 -->
+  <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.js"></script>
+  <script src="AppDataManagerV2.js"></script>
+
+  <script>
+    let testResults = [];
+
+    // 检查数据库连接
+    async function checkDatabaseConnection() {
+      const statusDiv = document.getElementById('db-status');
+      try {
+        statusDiv.innerHTML = '🔄 检测中...';
+
+        if (typeof Dexie === 'undefined') {
+          throw new Error('Dexie.js 未加载');
+        }
+
+        if (!AppDataManagerV2.initialized) {
+          await AppDataManagerV2.init();
+        }
+
+        if (AppDataManagerV2.db) {
+          statusDiv.innerHTML = `
+                        <div class="success">
+                            ✅ 数据库连接正常<br>
+                            数据库名：${AppDataManagerV2.db.name}<br>
+                            版本：${AppDataManagerV2.db.verno}<br>
+                            状态：${AppDataManagerV2.db.isOpen() ? '已打开' : '未打开'}
+                        </div>
+                    `;
+        } else {
+          throw new Error('数据库实例不存在');
+        }
+      } catch (error) {
+        statusDiv.innerHTML = `<div class="error">❌ 数据库连接失败: ${error.message}</div>`;
+      }
+    }
+
+    // 加载数据统计
+    async function loadDataStats() {
+      try {
+        const coloringCount = await AppDataManagerV2.db.coloringStrategies.count();
+        const recognitionCount = await AppDataManagerV2.db.recognitionStrategies.count();
+        const internalApps = await AppDataManagerV2.db.internalApps.count();
+        const crossBorderApps = await AppDataManagerV2.db.crossBorderApps.count();
+        const watermarkCount = await AppDataManagerV2.db.watermarkConfigs.count();
+
+        document.getElementById('coloring-count').textContent = coloringCount;
+        document.getElementById('recognition-count').textContent = recognitionCount;
+        document.getElementById('apps-count').textContent = internalApps + crossBorderApps;
+        document.getElementById('watermark-count').textContent = watermarkCount;
+      } catch (error) {
+        console.error('加载统计失败:', error);
+      }
+    }
+
+    // 加载流量染色策略
+    async function loadStrategies() {
+      const listDiv = document.getElementById('strategies-list');
+      try {
+        listDiv.innerHTML = '🔄 加载中...';
+
+        const strategies = await AppDataManagerV2.db.coloringStrategies.toArray();
+
+        if (strategies.length === 0) {
+          listDiv.innerHTML = '<div class="info">📝 暂无策略数据</div>';
+          return;
+        }
+
+        let html = `<div class="success">✅ 找到 ${strategies.length} 个策略：</div>`;
+        strategies.forEach((strategy, index) => {
+          html += `
+                        <div style="margin: 10px 0; padding: 10px; background: #f8f8f8; border-radius: 4px;">
+                            <strong>${index + 1}. ${strategy.name}</strong><br>
+                            <small>ID: ${strategy.id} | 范围: ${strategy.scope} | 状态: ${strategy.status ? '启用' : '禁用'}</small><br>
+                            <small>创建时间: ${new Date(strategy.createTime).toLocaleString()}</small>
+                        </div>
+                    `;
+        });
+
+        listDiv.innerHTML = html;
+      } catch (error) {
+        listDiv.innerHTML = `<div class="error">❌ 加载失败: ${error.message}</div>`;
+      }
+    }
+
+    // 测试添加策略
+    async function testAddStrategy() {
+      try {
+        const testStrategy = {
+          name: `测试策略_${Date.now()}`,
+          scope: '测试部门',
+          techniques: ['应用染色'],
+          note: '这是一个测试策略',
+          status: true,
+          effectObject: '测试用户',
+          coloringConfig: {
+            appColoring: {
+              enabled: true,
+              address: true,
+              protocol: false,
+              ip: true
+            },
+            dataFlowColoring: false,
+            dataTrackingColoring: false
+          },
+          createTime: new Date().toISOString()
+        };
+
+        const result = await AppDataManagerV2.coloringStrategies.add(testStrategy);
+        alert(`✅ 测试策略添加成功！ID: ${result.id || result}`);
+        loadStrategies(); // 重新加载列表
+        loadDataStats(); // 更新统计
+      } catch (error) {
+        alert(`❌ 添加失败: ${error.message}`);
+      }
+    }
+
+    // 清空所有策略
+    async function clearAllStrategies() {
+      if (!confirm('⚠️ 确定要清空所有流量染色策略吗？此操作不可恢复！')) {
+        return;
+      }
+
+      try {
+        await AppDataManagerV2.db.coloringStrategies.clear();
+        alert('✅ 所有策略已清空');
+        loadStrategies();
+        loadDataStats();
+      } catch (error) {
+        alert(`❌ 清空失败: ${error.message}`);
+      }
+    }
+
+    // 测试原生数据库操作
+    async function testRawOperations() {
+      const resultDiv = document.getElementById('raw-operations');
+      let results = [];
+
+      try {
+        // 1. 直接查询数据库
+        const directQuery = await AppDataManagerV2.db.coloringStrategies.toArray();
+        results.push(`✅ 直接查询: 找到 ${directQuery.length} 条记录`);
+
+        // 2. 测试事务
+        const transaction = AppDataManagerV2.db.transaction('rw', AppDataManagerV2.db.coloringStrategies, async () => {
+          const count = await AppDataManagerV2.db.coloringStrategies.count();
+          return count;
+        });
+        const transactionResult = await transaction;
+        results.push(`✅ 事务操作: 记录数 ${transactionResult}`);
+
+        // 3. 检查索引
+        const schema = AppDataManagerV2.db.coloringStrategies.schema;
+        results.push(`✅ 表结构: ${schema.name}, 主键: ${schema.primKey.name}`);
+
+        // 4. 内存缓存验证
+        const cacheSize = AppDataManagerV2.cache.coloringStrategies.size;
+        results.push(`✅ 内存缓存: ${cacheSize} 条记录`);
+
+        resultDiv.innerHTML = `
+                    <div class="success">
+                        ${results.map(r => `<div>${r}</div>`).join('')}
+                    </div>
+                `;
+      } catch (error) {
+        resultDiv.innerHTML = `<div class="error">❌ 原生操作失败: ${error.message}</div>`;
+      }
+    }
+
+    // 页面加载时自动检测
+    window.addEventListener('load', async () => {
+      await checkDatabaseConnection();
+      await loadDataStats();
+      await loadStrategies();
+    });
+  </script>
+</body>
+
+</html>

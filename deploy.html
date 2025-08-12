@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>项目部署指南</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+    }
+
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      color: #1890ff;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5em;
+    }
+
+    .deploy-option {
+      margin: 25px 0;
+      padding: 20px;
+      border: 2px solid #f0f0f0;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .deploy-option:hover {
+      border-color: #1890ff;
+      box-shadow: 0 4px 12px rgba(24, 144, 255, 0.15);
+    }
+
+    .option-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .option-title {
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .difficulty {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8em;
+      font-weight: bold;
+    }
+
+    .easy {
+      background: #52c41a;
+      color: white;
+    }
+
+    .medium {
+      background: #faad14;
+      color: white;
+    }
+
+    .hard {
+      background: #f5222d;
+      color: white;
+    }
+
+    .option-desc {
+      color: #666;
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+
+    .steps {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 6px;
+      margin: 10px 0;
+    }
+
+    .step {
+      margin: 8px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .step::before {
+      content: counter(step-counter);
+      counter-increment: step-counter;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: #1890ff;
+      color: white;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8em;
+      font-weight: bold;
+    }
+
+    .steps {
+      counter-reset: step-counter;
+    }
+
+    .btn {
+      background: #1890ff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin: 5px;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #40a9ff;
+    }
+
+    .btn-success {
+      background: #52c41a;
+    }
+
+    .btn-success:hover {
+      background: #73d13d;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .feature {
+      background: #e6f7ff;
+      color: #1890ff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+
+    .warning {
+      background: #fff7e6;
+      border: 1px solid #ffd591;
+      padding: 15px;
+      border-radius: 6px;
+      margin: 20px 0;
+    }
+
+    .warning-title {
+      color: #fa8c16;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .project-info {
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .info-title {
+      color: #52c41a;
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 15px;
+    }
+
+    .file-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .file-item {
+      background: #f8f9fa;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>🚀 项目部署指南</h1>
+
+    <div class="project-info">
+      <div class="info-title">📋 项目信息</div>
+      <p><strong>项目类型：</strong>纯前端多页面应用</p>
+      <p><strong>技术栈：</strong>HTML + CSS + JavaScript + IndexedDB</p>
+      <p><strong>页面数量：</strong>7个主页面 + 多个测试页面</p>
+      <div class="file-list">
+        <div class="file-item">📄 index.html</div>
+        <div class="file-item">📄 login.html</div>
+        <div class="file-item">📄 app-management.html</div>
+        <div class="file-item">📄 traffic-coloring.html</div>
+        <div class="file-item">📄 digital-watermark.html</div>
+        <div class="file-item">📄 watermark-trace.html</div>
+        <div class="file-item">📄 open-api.html</div>
+        <div class="file-item">📁 views/ (JS模块)</div>
+        <div class="file-item">📁 pages/ (页面逻辑)</div>
+      </div>
+    </div>
+
+    <!-- Netlify Drop -->
+    <div class="deploy-option" onclick="toggleSteps('netlify')">
+      <div class="option-header">
+        <div class="option-title">🎯 Netlify Drop (推荐)</div>
+        <div class="difficulty easy">超简单</div>
+      </div>
+      <div class="option-desc">
+        最快的部署方式，直接拖拽文件夹即可，30秒内完成部署
+      </div>
+      <div class="features">
+        <div class="feature">免费</div>
+        <div class="feature">CDN加速</div>
+        <div class="feature">自动HTTPS</div>
+        <div class="feature">自定义域名</div>
+        <div class="feature">表单处理</div>
+      </div>
+      <div class="steps" id="netlify-steps" style="display: none;">
+        <div class="step">打开 <a href="https://netlify.com" target="_blank">netlify.com</a></div>
+        <div class="step">将整个项目文件夹拖拽到页面的虚线框中</div>
+        <div class="step">等待上传完成（通常10-30秒）</div>
+        <div class="step">自动获得 https://xxx.netlify.app 域名</div>
+        <div class="step">可选：设置自定义域名</div>
+      </div>
+      <a href="https://netlify.com" target="_blank" class="btn btn-success">立即部署</a>
+    </div>
+
+    <!-- Vercel -->
+    <div class="deploy-option" onclick="toggleSteps('vercel')">
+      <div class="option-header">
+        <div class="option-title">⚡ Vercel</div>
+        <div class="difficulty easy">简单</div>
+      </div>
+      <div class="option-desc">
+        现代化的部署平台，支持自动CI/CD，全球边缘网络
+      </div>
+      <div class="features">
+        <div class="feature">免费</div>
+        <div class="feature">全球CDN</div>
+        <div class="feature">自动部署</div>
+        <div class="feature">性能分析</div>
+        <div class="feature">预览部署</div>
+      </div>
+      <div class="steps" id="vercel-steps" style="display: none;">
+        <div class="step">将代码推送到GitHub仓库</div>
+        <div class="step">访问 <a href="https://vercel.com" target="_blank">vercel.com</a> 并登录</div>
+        <div class="step">点击 "New Project" 导入GitHub仓库</div>
+        <div class="step">保持默认设置，点击 "Deploy"</div>
+        <div class="step">获得 https://xxx.vercel.app 域名</div>
+      </div>
+      <a href="https://vercel.com" target="_blank" class="btn">立即部署</a>
+    </div>
+
+    <!-- GitHub Pages -->
+    <div class="deploy-option" onclick="toggleSteps('github')">
+      <div class="option-header">
+        <div class="option-title">🐙 GitHub Pages</div>
+        <div class="difficulty easy">简单</div>
+      </div>
+      <div class="option-desc">
+        GitHub官方的静态网站托管服务，与代码仓库无缝集成
+      </div>
+      <div class="features">
+        <div class="feature">免费</div>
+        <div class="feature">版本控制</div>
+        <div class="feature">自动部署</div>
+        <div class="feature">自定义域名</div>
+      </div>
+      <div class="steps" id="github-steps" style="display: none;">
+        <div class="step">将代码推送到GitHub仓库</div>
+        <div class="step">进入仓库的 Settings 页面</div>
+        <div class="step">滚动到 "Pages" 部分</div>
+        <div class="step">Source 选择 "Deploy from a branch"</div>
+        <div class="step">Branch 选择 "main"，文件夹选择 "/ (root)"</div>
+        <div class="step">点击 "Save"，等待部署完成</div>
+        <div class="step">访问 https://username.github.io/repository</div>
+      </div>
+      <a href="https://github.com" target="_blank" class="btn">前往GitHub</a>
+    </div>
+
+    <!-- 本地服务器 -->
+    <div class="deploy-option" onclick="toggleSteps('local')">
+      <div class="option-header">
+        <div class="option-title">💻 本地服务器测试</div>
+        <div class="difficulty medium">中等</div>
+      </div>
+      <div class="option-desc">
+        在本地快速启动HTTP服务器进行测试
+      </div>
+      <div class="features">
+        <div class="feature">即时测试</div>
+        <div class="feature">本地调试</div>
+        <div class="feature">无需上传</div>
+      </div>
+      <div class="steps" id="local-steps" style="display: none;">
+        <div class="step">打开命令行，进入项目目录</div>
+        <div class="step">Python用户：<code>python -m http.server 8000</code></div>
+        <div class="step">Node.js用户：<code>npx serve .</code></div>
+        <div class="step">PHP用户：<code>php -S localhost:8000</code></div>
+        <div class="step">访问 http://localhost:8000</div>
+      </div>
+      <button class="btn" onclick="startLocalServer()">生成启动命令</button>
+    </div>
+
+    <div class="warning">
+      <div class="warning-title">⚠️ 重要提醒</div>
+      <p><strong>CORS问题：</strong>由于您的项目使用了外部CDN资源（Dexie.js），建议使用HTTP服务器而不是直接打开HTML文件。</p>
+      <p><strong>数据持久化：</strong>IndexedDB数据在不同域名下是独立的，部署后需要重新初始化数据。</p>
+      <p><strong>推荐方案：</strong>Netlify Drop是最快最简单的选择，适合快速展示和测试。</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+      <h3>🎉 选择任意一种方案，几分钟内就能让您的项目在线访问！</h3>
+      <p style="color: #666;">推荐从Netlify开始，体验最佳的部署流程</p>
+    </div>
+  </div>
+
+  <script>
+    function toggleSteps(platform) {
+      const steps = document.getElementById(platform + '-steps');
+      const isVisible = steps.style.display === 'block';
+
+      // 隐藏所有步骤
+      document.querySelectorAll('.steps').forEach(step => {
+        step.style.display = 'none';
+      });
+
+      // 切换当前步骤的显示状态
+      if (!isVisible) {
+        steps.style.display = 'block';
+      }
+    }
+
+    function startLocalServer() {
+      const commands = [
+        '# Python 用户',
+        'cd "' + window.location.pathname.replace('/deploy.html', '') + '"',
+        'python -m http.server 8000',
+        '',
+        '# Node.js 用户',
+        'cd "' + window.location.pathname.replace('/deploy.html', '') + '"',
+        'npx serve . -p 8000',
+        '',
+        '# PHP 用户',
+        'cd "' + window.location.pathname.replace('/deploy.html', '') + '"',
+        'php -S localhost:8000',
+        '',
+        '然后访问: http://localhost:8000'
+      ];
+
+      alert('复制以下命令到终端执行:\n\n' + commands.join('\n'));
+    }
+
+    // 添加部署选项的悬停效果
+    document.querySelectorAll('.deploy-option').forEach(option => {
+      option.addEventListener('mouseenter', function () {
+        this.style.transform = 'translateY(-2px)';
+      });
+
+      option.addEventListener('mouseleave', function () {
+        this.style.transform = 'translateY(0)';
+      });
+    });
+  </script>
+</body>
+
+</html>

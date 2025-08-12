@@ -1,0 +1,608 @@
+/* 全局样式，原console.js样式迁移 */
+
+/* 基础布局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f5f5f5;
+    color: #333;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* 侧边栏样式 */
+.sidebar {
+    width: 240px;
+    background: #001529;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1000;
+}
+
+.logo {
+    padding: 16px 24px;
+    border-bottom: 1px solid #002140;
+}
+
+.logo-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+}
+
+.sidebar nav {
+    flex: 1;
+    padding: 16px 0;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.menu-item:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.menu-item.active {
+    color: white;
+    background: #1890ff;
+}
+
+.menu-item i {
+    font-size: 16px;
+    margin-right: 12px;
+    width: 16px;
+    text-align: center;
+}
+
+.menu-item span {
+    font-size: 14px;
+}
+
+.logout-item {
+    margin-top: auto;
+    border-top: 1px solid #002140;
+}
+
+.logout-item:hover {
+    color: #ff4d4f;
+    background: rgba(255, 77, 79, 0.1);
+}
+
+/* 主内容区样式 */
+.main-content {
+    margin-left: 240px;
+    flex: 1;
+    padding: 32px 40px;
+    background: #f5f5f5;
+    min-height: 100vh;
+}
+.tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-size: 12px;
+    margin-right: 8px;
+}
+.tag.success {
+    background-color: #e6f7e6;
+    color: #52c41a;
+}
+.tag.info {
+    background-color: #e6f4ff;
+    color: #1890ff;
+}
+.tag.default {
+    background-color: #f5f5f5;
+    color: #666;
+}
+.table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+}
+.batch-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.batch-actions .btn {
+    padding: 4px 12px;
+    border: 1px solid #d9d9d9;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+
+.batch-actions .btn:hover {
+    background: #f5f5f5;
+    border-color: #bfbfbf;
+}
+
+.batch-actions .btn.danger {
+    color: #ff4d4f;
+    border-color: #ff4d4f;
+}
+
+.batch-actions .btn.danger:hover {
+    background: #fff2f0;
+    border-color: #ff7875;
+}
+
+/* 统一的批量操作按钮样式 */
+.batch-btn {
+    padding: 4px 12px;
+    border: 1px solid #d9d9d9;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+
+.batch-btn:hover {
+    background: #f5f5f5;
+    border-color: #bfbfbf;
+}
+
+.batch-btn.danger {
+    color: #ff4d4f;
+    border-color: #ff4d4f;
+}
+
+.batch-btn.danger:hover {
+    background: #fff2f0;
+    border-color: #ff7875;
+}
+.watermark-switch {
+    background: #fff;
+    padding: 16px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.switch-desc {
+    color: #666;
+    font-size: 14px;
+}
+.watermark-config {
+    background: #fff;
+    padding: 24px;
+    border-radius: 4px;
+}
+.config-section {
+    margin-bottom: 24px;
+}
+.section-title {
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+.required:before {
+    content: '*';
+    color: #ff4d4f;
+    margin-right: 4px;
+}
+.watermark-types {
+    display: flex;
+    gap: 16px;
+}
+.type-option {
+    width: 200px;
+    height: 40px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    cursor: pointer;
+    background: #fff;
+}
+.type-option.selected {
+    border-color: #1890ff;
+}
+.content-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.row-label {
+    width: 80px;
+}
+.row-content {
+    display: flex;
+    gap: 8px;
+}
+.row-content select {
+    min-width: 120px;
+    height: 32px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    padding: 0 8px;
+}
+.btn-white {
+    padding: 4px 12px;
+    border: 1px solid #d9d9d9;
+    background: #fff;
+    border-radius: 4px;
+}
+.style-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+.style-item {
+    display: flex;
+    align-items: center;
+}
+.style-item label {
+    width: 80px;
+}
+.color-picker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.color-block {
+    width: 24px;
+    height: 24px;
+    background: #000000;
+    border: 1px solid #d9d9d9;
+}
+.timing-options {
+    display: flex;
+    gap: 24px;
+}
+.form-footer {
+    margin-top: 24px;
+    text-align: right;
+}
+.btn-cancel {
+    margin-right: 8px;
+}
+.btn-save {
+    background: #1890ff;
+    color: #fff;
+    border: none;
+}
+.btn-cancel, .btn-save {
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.trace-container {
+    background: #fff;
+    border-radius: 4px;
+    margin-top: 16px;
+}
+.trace-header {
+    padding: 16px;
+    border-bottom: 1px solid #e8e8e8;
+}
+.switch-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #666;
+}
+.trace-tabs {
+    padding: 0 16px;
+    border-bottom: 1px solid #e8e8e8;
+}
+.tab {
+    display: inline-block;
+    padding: 16px 0;
+    margin-right: 24px;
+    color: #666;
+    text-decoration: none;
+    position: relative;
+}
+.tab.active {
+    color: #1890ff;
+}
+.tab.active:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #1890ff;
+}
+.record-form {
+    padding: 24px;
+}
+.form-item {
+    margin-bottom: 24px;
+}
+.form-item label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.required:before {
+    content: '*';
+    color: #ff4d4f;
+    margin-right: 4px;
+}
+.upload-area {
+    background: #f5f7fa;
+    border-radius: 4px;
+}
+.upload-box {
+    padding: 32px;
+    text-align: center;
+}
+.upload-icon {
+    color: #1890ff;
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+.upload-text {
+    color: #333;
+    margin-bottom: 8px;
+}
+.file-types {
+    color: #999;
+    font-size: 12px;
+    line-height: 1.5;
+}
+.input-text {
+    width: 100%;
+    height: 32px;
+    padding: 4px 11px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.form-footer {
+    margin-top: 32px;
+    text-align: right;
+}
+.btn-cancel {
+    margin-right: 8px;
+    padding: 8px 16px;
+    border: 1px solid #d9d9d9;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.btn-primary {
+    padding: 8px 16px;
+    background: #1890ff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.tab-pane {
+    display: none;
+}
+.tab-pane.active {
+    display: block;
+}
+.analysis-form {
+    padding: 24px;
+}
+.analysis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+.grid-item {
+    margin-bottom: 24px;
+}
+.grid-item label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.upload-area {
+    background: #f5f7fa;
+    border-radius: 4px;
+    height: 100%;
+    min-height: 200px;
+}
+.upload-box {
+    padding: 32px;
+    text-align: center;
+}
+.upload-icon {
+    color: #1890ff;
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+.upload-text {
+    color: #333;
+    margin-bottom: 8px;
+}
+.file-types {
+    color: #999;
+    font-size: 12px;
+    line-height: 1.5;
+}
+.result-area {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    height: 100%;
+    min-height: 200px;
+}
+.form-footer {
+    margin-top: 32px;
+    text-align: right;
+}
+.btn-primary {
+    padding: 8px 16px;
+    background: #1890ff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.required:before {
+    content: '*';
+    color: #ff4d4f;
+    margin-right: 4px;
+}
+.app-tabs {
+    margin-bottom: 16px;
+    border-bottom: 1px solid #e8e8e8;
+}
+.app-tabs .tab {
+    display: inline-block;
+    padding: 12px 0;
+    margin-right: 24px;
+    color: #666;
+    text-decoration: none;
+    position: relative;
+}
+.app-tabs .tab.active {
+    color: #1890ff;
+    border-bottom: 2px solid #1890ff;
+}
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+.btn-new {
+    background: #1890ff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.search-box {
+    display: flex;
+    align-items: center;
+}
+.search-input {
+    padding: 8px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    margin-right: 8px;
+}
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.data-table th,
+.data-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e8e8e8;
+    text-align: left;
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 20px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: #1890ff;
+}
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+.table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+}
+.batch-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.page-btn {
+    padding: 4px 8px;
+    border: 1px solid #d9d9d9;
+    background: white;
+    cursor: pointer;
+}
+.page-btn.active {
+    background: #1890ff;
+    color: white;
+    border-color: #1890ff;
+}
+.link-edit,
+.link-delete {
+    color: #1890ff;
+    text-decoration: none;
+    margin-right: 8px;
+}
+
+.link-delete {
+    color: #ff4d4f !important;
+}
+/* 页面内容区域样式 */
+#app-content {
+    background: #fff;
+    border-radius: 8px;
+    padding: 24px;
+    min-height: 600px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+} 
