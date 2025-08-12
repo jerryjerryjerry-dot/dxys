@@ -153,3 +153,4 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 console.log(`✅ 完整应用数据已加载: ${completeAppData.length} 个应用`);
+
